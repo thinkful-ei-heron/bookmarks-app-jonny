@@ -9,9 +9,7 @@ button:hover {
 .hidden {
     display: none;
 }
-
-#shopping-list-item {
-    width: 250px;
+#bookmark-list-form {
 }
 
 .container {
@@ -19,27 +17,43 @@ button:hover {
     margin: 0 auto;
     text-align: center;
 }
-
-.shopping-list {
-    list-style: none;
-    padding-left: 0;
+#bookmark-list-results {
+    padding: 0 8px;
 }
-
-.shopping-list > li {
-    margin-bottom: 20px;
-    border: 1px solid grey;
-    padding: 20px;
-}
-
-.shopping-item {
+.bookmark-element {
+    padding: 8px 0;
+    border: 1px solid black;
+    margin-top: 4px;
+    border-radius: 16px;
     display: block;
-    color: grey;
-    font-style: italic;
-    font-size: 20px;
-    margin-bottom: 15px;
 }
-
-.shopping-item__checked {
-    text-decoration: line-through;
+.bookmark-item{
+    cursor: pointer;
+    font-size: x-large;
 }
-
+.bookmark-item > * {
+    text-align: right;
+    margin-top: -1.15rem;
+    margin-right: 1rem;
+}
+.bookmark-item-delete {
+    margin-left: 73%;
+    margin-top: -50px;
+    margin-bottom: 0;
+    border-radius: 10px;
+}
+.bookmark-button-url {
+    padding: 4px 30px;
+    border-radius: 10px;
+}
+.bookmark-rating {
+    margin-left: 16rem;
+    font-size: x-large;
+    margin-top: -50px;
+    margin-bottom: 30px;
+}
+.book-mark-entry {
+    padding: 16px;
+    border-radius: 20px;
+    border: 1px solid black;
+}

@@ -4,18 +4,20 @@ import api from './api';
 
 const generateBookmarkElement = function (bookmark) {
     let bookmarkExpandedView = ``;
-    let bookmarkTitleCompanion = `<span class="shopping-item">${bookmark.rating}</span>`;
+    let bookmarkTitleCompanion = `<div class="shopping-item">${bookmark.rating}</div>`;
     if (bookmark.expanded) {
-        bookmarkTitleCompanion = `<button class="bookmark-item-delete">
-          <span class="button-label">Delete</span>
-        </button>`;
+        bookmarkTitleCompanion = ``;
         bookmarkExpandedView = `
+      <button class="bookmark-item-delete">
+          <span class="button-label">Delete</span>
+        </button>
       <div class="shopping-item-controls">
-        <button class="shopping-item-toggle js-item-toggle">
+
+        <button class="bookmark-button-url">
           <span class="button-label">Visit Site</span>
           
         </button>
-        <span class="shopping-item">${bookmark.rating}</span>
+        <div class="bookmark-rating">${bookmark.rating}</div>
         <div>${bookmark.desc}</div>
       </div>
     `;
@@ -23,7 +25,7 @@ const generateBookmarkElement = function (bookmark) {
 
     return `
     <li class="bookmark-element" data-bookmark-id="${bookmark.id}">
-      <span class="bookmark-item">${bookmark.title} ${bookmarkTitleCompanion}</span>
+      <div class="bookmark-item">${bookmark.title} ${bookmarkTitleCompanion}</div>
            ${bookmarkExpandedView}   
     </li>`;
 };
@@ -66,7 +68,7 @@ const render = function () {
     let items = [...bookmark.store.bookmarks];
 
     if (bookmark.store.adding) {
-        form = `<label for="bookmark-entry-title">Title: </label>
+        form = `<div class="book-mark-entry"><label for="bookmark-entry-title">Title: </label>
         <input type="text" name="bookmark-entry-title" class="bookmark-entry-title" placeholder="Hitch Hikers Guide to the Galaxy"/>
         <label for="bookmark-entry-url">URL: </label>
         <input type="text" name="bookmark-entry-url" class="bookmark-entry-url" placeholder="www..."/>
@@ -80,7 +82,7 @@ const render = function () {
             <input type="radio" name="rating" value="5"><i></i>
         </div>
         <button class="bookmark-entry-cancel" type="button">Cancel</button>
-        <button type="submit">Create</button>`
+        <button type="submit">Create</button></div>`
 
     }
     $('#bookmark-list-form').html(form);
@@ -90,8 +92,12 @@ const render = function () {
     // render the shopping list in the DOM
     const bookmarkListItemsString = generateBookmarksString(items);
 
+
     // insert that HTML into the DOM
     $('#bookmark-list-results').html(bookmarkListItemsString);
+    if(bookmark.store.bookmarks.find((item) => item.expanded)) {
+        handleBookmarkUrl();
+    }
 };
 
 const handleNewBookmarkSubmit = function () {
@@ -173,7 +179,14 @@ const handleBookmarkClicked = function () {
         render();
     });
 };
-
+const handleBookmarkUrl = function () {
+    $('.bookmark-button-url').on('click', event => {
+        const id = getItemIdFromElement(event.currentTarget);
+        const item = bookmark.findById(id);
+        console.log(item)
+        window.open(item.url);
+    })
+};
 const handleToggleAddingClick = function () {
     $('.bookmark-add-entry').click(() => {
         bookmark.toggleAdding();
