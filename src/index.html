@@ -8,7 +8,12 @@
 <div class="container">
     <h1>Bookmark List</h1>
     <button class="bookmark-add-entry">+ New</button>
-    <button>Filter</button>
+    <select class='filter' name="filter">
+        <option class="filter-option" value="azTitle">title A-Z</option>
+        <option class="filter-option" value="zaTitle">title Z-A</option>
+        <option class="filter-option" value="hRating">Highest Rating</option>
+        <option class="filter-option" value="lRating">Lowest Rating</option>
+    </select>
     <form id="bookmark-list-form">
 
     </form>

@@ -29,7 +29,7 @@ const generateBookmarkElement = function (bookmark) {
 };
 
 const generateBookmarksString = function (shoppingList) {
-    const items = shoppingList.map((item) => generateBookmarkElement(item));
+    const items = shoppingList.map((item) => generateBookmarkElement(item))
     return items.join('');
 };
 
@@ -64,6 +64,7 @@ const render = function () {
     // Filter item list if store prop is true by item.checked === false
 
     let items = [...bookmark.store.bookmarks];
+
     if (bookmark.store.adding) {
         form = `<label for="bookmark-entry-title">Title: </label>
         <input type="text" name="bookmark-entry-title" class="bookmark-entry-title" placeholder="Hitch Hikers Guide to the Galaxy"/>
@@ -83,7 +84,7 @@ const render = function () {
 
     }
     $('#bookmark-list-form').html(form);
-    if(bookmark.store.adding) {
+    if (bookmark.store.adding) {
         handleBookmarkCanceled();
     }
     // render the shopping list in the DOM
@@ -128,7 +129,6 @@ const getItemIdFromElement = function (item) {
 const handleDeleteBookmarkClicked = function () {
     $('#bookmark-list-results').on('click', '.bookmark-item-delete', event => {
         const id = getItemIdFromElement(event.currentTarget);
-
         api.deleteBookmark(id)
             .then(() => {
                 bookmark.findAndDelete(id);
@@ -160,7 +160,7 @@ const handleDeleteBookmarkClicked = function () {
 //     });
 // };
 const handleBookmarkCanceled = function () {
-    $('.bookmark-entry-cancel').on('click',() => {
+    $('.bookmark-entry-cancel').on('click', () => {
         bookmark.toggleAdding();
         render();
     })
@@ -169,7 +169,6 @@ const handleBookmarkClicked = function () {
     $('#bookmark-list-results').on('click', '.bookmark-item', event => {
         const id = getItemIdFromElement(event.currentTarget);
         const item = bookmark.findById(id);
-
         bookmark.findAndUpdate(id, {expanded: !item.expanded});
         render();
     });
@@ -182,12 +181,19 @@ const handleToggleAddingClick = function () {
     });
 };
 
+const handleFilter = function () {
+    $('.filter').on("change", event => {
+        const sortingX = $(event.target).children(':selected').val();
+        bookmark.sortData(sortingX);
+        render();
+    });
+};
 const bindEventListeners = function () {
     handleNewBookmarkSubmit();
     handleBookmarkClicked();
     handleDeleteBookmarkClicked();
     handleToggleAddingClick();
-
+    handleFilter();
     // handleEditShoppingItemSubmit();
     // handleCloseError();
 };

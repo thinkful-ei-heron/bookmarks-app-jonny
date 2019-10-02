@@ -26,6 +26,51 @@ const setError = function (error) {
     this.store.error = error;
 };
 
+const sortData = function (sortingX) {
+    switch (sortingX) {
+        case 'lRating':
+            store.bookmarks.sort(function (a, b) {
+                return  a.rating - b.rating;
+            });
+            break;
+        case 'hRating':
+            store.bookmarks.sort(function (a, b) {
+                return b.rating - a.rating;
+            });
+            break;
+        case 'azTitle':
+            store.bookmarks.sort(function (a,b) {
+                const nameA=a.title.toLowerCase(), nameB=b.title.toLowerCase()
+                if (nameA < nameB) //sort string ascending
+                    return -1;
+                if (nameA > nameB)
+                    return 1;
+                return 0 //default return value (no sorting)
+            });
+            break;
+        case 'zaTitle':
+            store.bookmarks.sort(function (a,b) {
+                const nameA=b.title.toLowerCase(), nameB=a.title.toLowerCase()
+                if (nameA < nameB) //sort string ascending
+                    return -1;
+                if (nameA > nameB)
+                    return 1;
+                return 0 //default return value (no sorting)
+            });
+            break;
+        default:
+            store.bookmarks.sort(function (a,b) {
+                const nameA=a.title.toLowerCase(), nameB=b.title.toLowerCase()
+                if (nameA < nameB) //sort string ascending
+                    return -1;
+                if (nameA > nameB)
+                    return 1;
+                return 0 //default return value (no sorting)
+            });
+            break;
+    }
+};
+
 export default {
     store,
     findById,
@@ -33,5 +78,6 @@ export default {
     findAndDelete,
     findAndUpdate,
     toggleAdding,
-    setError
+    setError,
+    sortData
 };
