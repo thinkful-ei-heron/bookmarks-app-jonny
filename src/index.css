@@ -57,3 +57,23 @@ button:hover {
     border-radius: 20px;
     border: 1px solid black;
 }
+.error-container {
+    position: fixed;
+    right: 8px;
+    border: 1px solid red;
+    border-radius: 20px;
+    top: 20px;
+    background-color: #fff0f088;
+}
+.error-content > p {
+    margin-top: -1.15rem;
+    display: flex;
+}
+.error-content > button {
+    display: flex;
+    padding: 0 3px;
+    margin: 5px;
+    margin-bottom: 16px;
+    border-radius: 20px;
+    font-size: small;
+}

@@ -35,33 +35,33 @@ const generateBookmarksString = function (shoppingList) {
     return items.join('');
 };
 
-// const generateError = function (message) {
-//     return `
-//       <section class="error-content">
-//         <button id="cancel-error">X</button>
-//         <p>${message}</p>
-//       </section>
-//     `;
-// };
+const generateError = function (message) {
+    return `
+      <section class="error-content">
+        <button id="cancel-error">X</button>
+        <p>${message}</p>
+      </section>
+    `;
+};
 
-// const renderError = function () {
-//     if (store.error) {
-//         const el = generateError(store.error);
-//         $('.error-container').html(el);
-//     } else {
-//         $('.error-container').empty();
-//     }
-// };
+const renderError = function () {
+    if (bookmark.store.error) {
+        const el = generateError(bookmark.store.error);
+        $('.error-container').append(el);
+    } else {
+        $('.error-container').empty();
+    }
+};
 
-// const handleCloseError = function () {
-//     $('.error-container').on('click', '#cancel-error', () => {
-//         store.setError(null);
-//         renderError();
-//     });
-// };
+const handleCloseError = function () {
+    $('.error-container').on('click', '#cancel-error', () => {
+        bookmark.setError(null);
+        renderError();
+    });
+};
 
 const render = function () {
-    // renderError();
+    renderError();
     let form = ``;
     // Filter item list if store prop is true by item.checked === false
 
@@ -106,24 +106,48 @@ const handleNewBookmarkSubmit = function () {
         const title = $('.bookmark-entry-title').val();
         const url = ($('.bookmark-entry-url').val().includes('https://')) ? $('.bookmark-entry-url').val() : `https://${$('.bookmark-entry-url').val()}`;
         const desc = $('.bookmark-entry-description').val();
-        const rating = ($('.bookmark-entry-rating').children('input:checked')[0].value) ? $('.bookmark-entry-rating').children('input:checked')[0].value : 0;
+        let ratingNode = $('.bookmark-entry-rating').children('input:checked')[0];
+        let rating = 0;
+        if(ratingNode) {
+            rating = (ratingNode.value) ? ratingNode.value : 0;
+        }
+        console.log(url,title,desc,rating)
         const newBookmark = {title, url, desc, rating};
 
         $('.bookmark-entry-title').val('');
         $('.bookmark-entry-url').val('');
         $('.bookmark-entry-description').val('');
+        checkIfEmpty(title, 'Title');
+        checkIfEmpty(url, 'Url');
+        checkIfEmpty(desc, 'The Description');
+        checkIfEmpty(rating, 'Rating');
 
-        api.createBookmark(newBookmark)
-            .then((newItem) => {
-                bookmark.addItem(newItem);
-                bookmark.toggleAdding();
-                render();
-            })
-            .catch((err) => {
-                bookmark.setError(err.message);
-                // renderError();
-            });
+        if (title && url && desc && rating !== 0) {
+            api.createBookmark(newBookmark)
+                .then((newItem) => {
+                    bookmark.addItem(newItem);
+                    bookmark.toggleAdding();
+                    render();
+                })
+                .catch((err) => {
+                    bookmark.setError(err.message);
+                    renderError();
+                });
+        }
     });
+};
+
+const checkIfEmpty = (x, str) => {
+    if(x === '') {
+        bookmark.setError(`${str} is empty.`);
+        renderError();
+    } else if(x === 0) {
+        bookmark.setError(`Select a ${str}`);
+        renderError();
+    } else if(x.includes('https://') && x.length <= 8) {
+        bookmark.setError(`${str} is not formatted correctly`);
+        renderError();
+    }
 };
 
 const getItemIdFromElement = function (item) {
@@ -143,7 +167,7 @@ const handleDeleteBookmarkClicked = function () {
             .catch((err) => {
                 console.log(err);
                 bookmark.store.setError(err.message);
-                //renderError();
+                renderError();
             });
     });
 };
@@ -208,7 +232,7 @@ const bindEventListeners = function () {
     handleToggleAddingClick();
     handleFilter();
     // handleEditShoppingItemSubmit();
-    // handleCloseError();
+    handleCloseError();
 };
 
 // This object contains the only exposed methods from this module:
