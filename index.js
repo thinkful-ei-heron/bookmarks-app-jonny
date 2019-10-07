@@ -1,9 +1,9 @@
 import $ from 'jquery';
 import './node_modules/normalize.css/normalize.css';
 import './index.css';
-import bookmarkList from './bookmark-list';
- import bookmark from './bookmark';
-import api from './api';
+import bookmarkList from './src/bookmark-list';
+ import bookmark from './src/bookmark';
+import api from './src/api';
 
 const main = function () {
      api.getBookmarks()
