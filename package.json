@@ -1,6 +1,6 @@
 {
   "name": "bookmarks-app-jonny",
-  "version": "0.0.1",
+  "version": "0.0.5",
   "description": "Project developed by Jonny Deates.",
   "main": "index.js",
   "scripts": {
