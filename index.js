@@ -9,7 +9,6 @@ const main = function () {
      api.getBookmarks()
          .then((items) => {
              items.forEach((item) => bookmark.addItem(item));
-             console.log(items, 'YEET');
              bookmarkList.render();
          });
     bookmarkList.bindEventListeners();
