@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import 'normalize.css';
+import './node_modules/normalize.css/normalize.css';
 import './index.css';
 import bookmarkList from './bookmark-list';
  import bookmark from './bookmark';
